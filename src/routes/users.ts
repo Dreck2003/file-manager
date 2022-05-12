@@ -1,10 +1,10 @@
 import { loginUser,createUser } from "./../controllers/users";
 import { Router } from "express";
-import { validatorCreateUser } from "../validators/users";
+import { validatorCreateUser,validatorLoginUser } from "../validators/users";
 
 const router=Router();
-router.use("/",validatorCreateUser,createUser);
-router.use("/login",loginUser);
+router.post("/",validatorCreateUser,createUser);
+router.post("/login",validatorLoginUser,loginUser);
 
 module.exports= router;
 

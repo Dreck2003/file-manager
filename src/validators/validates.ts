@@ -7,7 +7,7 @@ export const validates=(req:Request,res:Response,next:NextFunction)=>{
 		validationResult(req).throw();
 		return next();
 	}catch(error:any){
-		console.log("Error en validatorCreateUser: ",error.array());
+		// console.log("Error en validatorCreateUser: ",error.array());
 		handleError(res,"Missing data or incorrect data");
              
 	}
