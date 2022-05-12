@@ -15,15 +15,10 @@ describe("POST /users", () => {
     await prisma.user.deleteMany({});
   });
 
-  test("Should return new User", async () => {
+  test("Should return new User and token", async () => {
     const response = await supertest.post("/api/users").send(ListUsers[0]);
     expect(response.headers["content-type"]).toMatch(/application\/json/);
-    expect(response.body.content).toEqual(
-      expect.objectContaining({
-        name: ListUsers[0].name,
-        username: ListUsers[0].username,
-      })
-    );
+    expect(Object.keys(response.body.content)).toEqual(expect.arrayContaining(["name","username","token"]));
     expect(response.body.error).toEqual(null);
   });
 
@@ -39,5 +34,27 @@ describe("POST /users", () => {
     await supertest.post("/api/users").send(ListUsers[0]);
     const responseTwo=await supertest.post("/api/users").send(ListUsers[0]);
     expect(responseTwo.body.error).toBe("User already exists");
+  });
+});
+
+describe("LOGIN /users/login",()=>{
+
+   beforeAll(async () => {
+    await prisma.user.deleteMany({});
+  });
+  
+  test("Should return error if a user is not exist in database",async()=>{
+    const response=await supertest.post("/api/users/login").send(ListUsers[0]);
+    expect(response.headers["content-type"]).toMatch(/application\/json/);
+    expect(response.body.error).toBe("User not exists");
+    expect(response.body.content).toEqual(null);
+  });
+
+  test("Should return token if all is well",async()=>{
+    await supertest.post("/api/users").send(ListUsers[0]);
+    const response=await supertest.post("/api/users/login").send(ListUsers[0]);
+
+    expect(response.body.error).toEqual(null);
+    expect(typeof response.body.content.token).toBe("string");
   });
 });
