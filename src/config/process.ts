@@ -14,4 +14,9 @@ export const CONFIG = {
 		SECRET: process.env.AWS_SECRET,
 		BUCKET: process.env.AWS_BUCKET,
 	},
+	EMAIL:{
+		FROM:process.env.EMAIL_FROM,
+		USER:process.env.EMAIL_USER,
+		PASSWORD:process.env.EMAIL_PASSWORD
+	}
 };

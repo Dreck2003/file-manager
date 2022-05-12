@@ -9,3 +9,5 @@ dist/
 
 #lock
 package-lock.json
+
+index.html

@@ -13,3 +13,7 @@ export const validatorLoginUser = [
   check("username").exists().notEmpty().isLength({ min: 5, max: 20 }),
   validates,
 ];
+export const validatorForgotPassUser = [
+  check("email").exists().notEmpty().isEmail(),
+  validates,
+];
