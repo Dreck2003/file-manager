@@ -1,5 +1,7 @@
+/* eslint-disable linebreak-style */
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
+  preset: "ts-jest",
+  testEnvironment: "node",
+  modulePathIgnorePatterns: ["dist"],
 };
