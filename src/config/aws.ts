@@ -59,17 +59,19 @@ export const getFileS3 = async (fileKey: string) => {
 //   }
 // };
 
-// export const downloadAwsFile = async (fileKey: string) => {
-//   try {
-//     return s3
-//       .getObject({
-//         Key: fileKey,
-//         Bucket: CONFIG.AWS.BUCKET as string,
-//       })
-//       .promise();
+export const downloadAwsFile = async (fileKey: string) => {
+  console.log("Se descargara en archivo con la key: ", fileKey);
 
-//     s3.putObject;
-//   } catch (error) {
-//     console.log("Error en downloadAwsFile: ", error);
-//   }
-// };
+  try {
+    return s3
+      .getObject({
+        Key: fileKey,
+        Bucket: CONFIG.AWS.BUCKET as string,
+      })
+      .promise();
+
+    s3.putObject;
+  } catch (error) {
+    console.log("Error en downloadAwsFile: ", error);
+  }
+};

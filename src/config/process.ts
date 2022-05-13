@@ -4,11 +4,11 @@ dotenv.config();
 
 export const CONFIG = {
   DB: {
-    PORT: process.env.DB_PORT,
-    NAME: process.env.DB_NAME,
-    USER: process.env.DB_USER,
+    PORT: process.env.DB_PORT || 5432,
+    NAME: process.env.DB_NAME || "test",
+    USER: process.env.DB_USER || "postgres",
   },
-  PORT: process.env.PORT,
+  PORT: process.env.PORT || 3001,
   AWS: {
     KEY: process.env.AWS_KEY,
     SECRET: process.env.AWS_SECRET,
@@ -23,4 +23,5 @@ export const CONFIG = {
   UNSPLASH: {
     ACCESS_KEY: process.env.UNSPLASH_ACCES_KEY,
   },
+  BASE_URL: process.env.BASE_URL || "http://localhost:3001",
 };

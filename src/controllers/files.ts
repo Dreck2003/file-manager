@@ -1,57 +1,56 @@
 import { PrismaClient } from "@prisma/client";
-import fs from "fs/promises";
+// import fs from "fs/promises";
 import { Request, Response } from "express";
-import { getFileS3, UploadFile } from "../config/aws";
+import { getFileS3 } from "../config/aws";
 import { handleError } from "../helpers/handleError";
 import { getToken } from "../helpers/getIdToken";
+// import { CONFIG } from "../config/process";
 
 const prisma = new PrismaClient();
 
 export const createFile = async (req: Request, res: Response) => {
   try {
-    console.log("Entro en createFile");
-
     if (!req.file) {
       return handleError(res, "Not exist the file", 400);
     }
-    const result = await UploadFile(req.file);
+    // const result = await UploadFile(req.file);
 
-    await fs.unlink(req.file.path);
-    if (!result) {
-      return handleError(res, "Not pssible upload file", 500);
-    }
+    // await fs.unlink(req.file.path);
+    // if (!result) {
+    //   return handleError(res, "Not pssible upload file", 500);
+    // }
 
-    //This start created models and relations:
+    // //This start created models and relations:
 
-    const nameFile = req.body.nameFile;
+    // const nameFile = req.body.nameFile;
 
-    const baseUrl =
-      process.env.BASE_URL || "http://localhost:3001/api/files/singleFile";
+    // const baseUrl = `${CONFIG.BASE_URL}/api/files/singleFile`;
 
-    const token = getToken(req);
-    console.log({ token });
-    if (!token) {
-      return handleError(res, "JWT_ERROR", 500);
-    }
+    // const token = getToken(req);
+    // console.log({ token });
+    // if (!token) {
+    //   return handleError(res, "JWT_ERROR", 500);
+    // }
 
-    const newFile = await prisma.file.create({
-      data: {
-        name: nameFile,
-        url: `${baseUrl}/${result.Key}`,
-        key: result.Key,
-        isDeleted: false,
-        userId: token.id,
-      },
-      select: {
-        name: true,
-        url: true,
-        key: true,
-      },
-    });
+    // const newFile = await prisma.file.create({
+    //   data: {
+    //     name: nameFile,
+    //     url: `${baseUrl}/${result.Key}`,
+    //     key: result.Key,
+    //     isDeleted: false,
+    //     userId: token.id,
+    //   },
+    //   select: {
+    //     name: true,
+    //     url: true,
+    //     key: true,
+    //   },
+    // });
 
-    await fs.unlink(req.file.path);
+    // await fs.unlink(req.file.path);
 
-    return res.status(200).json({ error: null, content: newFile });
+    // return res.status(200).json({ error: null, content: newFile });
+    return res.send("wajajaj");
   } catch (error) {
     console.log("Error in createFile: ", error);
     return handleError(res, error, 500);
@@ -107,22 +106,3 @@ export const getUserFiles = async (req: Request, res: Response) => {
     return handleError(res, error, 500);
   }
 };
-
-// export const downloadFile = async (req: Request, res: Response) => {
-//   try {
-//     const result = await downloadAwsFile(req.params.key);
-
-//     return res.status(200).json({ error: null, content: result?.Body });
-//   } catch (error) {
-//     console.log("Error in dowloadFile: ", error);
-//     return handleError(res, "ERROR_DOWNLOADFILE", 500);
-//   }
-// };
-
-// export const getUserFiles = async (req: Request, res: Response) => {
-//   try {
-//   } catch (error) {
-//     console.log("Error en getUSerFiles: ", error);
-//     return handleError(res, error, 500);
-//   }
-// };

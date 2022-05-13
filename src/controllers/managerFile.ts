@@ -1,9 +1,11 @@
+import jwt from "jsonwebtoken";
 import { handleError } from "./../helpers/handleError";
 import { Request, Response } from "express";
 import { CONFIG } from "../config/process";
 import axios from "axios";
 import { matchedData } from "express-validator";
 import { PrismaClient } from "@prisma/client";
+import { downloadAwsFile } from "../config/aws";
 
 const prisma = new PrismaClient();
 
@@ -103,3 +105,55 @@ export const getFileUrl = async (req: Request, res: Response) => {
     return handleError(res, error, 500);
   }
 };
+
+interface JwtPayload {
+  id: number;
+}
+
+export const downloadFile = async (req: Request, res: Response) => {
+  try {
+    const token = jwt.verify(
+      req.params.token,
+      CONFIG.SECRET as string
+    ) as JwtPayload;
+
+    if (!token.id) {
+      return handleError(res, "The credentials are incorrect", 401);
+    }
+
+    const userEncountered = await prisma.user.findFirst({
+      where: {
+        id: token.id,
+      },
+    });
+
+    if (!userEncountered) {
+      return handleError(res, "The credentials are incorrect", 401);
+    }
+    console.log(req.params.key);
+
+    const isExistFile = await prisma.file.findFirst({
+      where: {
+        key: req.params.key,
+      },
+    });
+    if (!isExistFile) {
+      return handleError(res, "The File not exist", 401);
+    }
+
+    const result = await downloadAwsFile(req.params.key);
+
+    return res.status(200).send(result?.Body);
+  } catch (error) {
+    console.log("Error in dowloadFile: ", error);
+    return handleError(res, "ERROR_DOWNLOADFILE", 500);
+  }
+};
+
+// export const getUserFiles = async (req: Request, res: Response) => {
+//   try {
+//   } catch (error) {
+//     console.log("Error en getUSerFiles: ", error);
+//     return handleError(res, error, 500);
+//   }
+// };
