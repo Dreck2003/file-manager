@@ -2,7 +2,7 @@ import { handleError } from "./../helpers/handleError";
 import { Request, Response } from "express";
 import { matchedData } from "express-validator";
 import { PrismaClient } from "@prisma/client";
-import { encrypPass, validatePass } from "../helpers/user";
+import { encrypPass, validatePass } from "../helpers/bcryptHelper";
 import jwt from "jsonwebtoken";
 import { sendMail } from "../config/email";
 import { ForgotPassHtml } from "../helpers/templates/emailTemplate";
@@ -107,12 +107,11 @@ export const forgotPassword = async (req: Request, res: Response) => {
     const token = jwt.sign({ id: isExistUser.id }, secret, {
       expiresIn: "48h",
     });
-    const url=`http://localhost:3000/${token}`;
-    const template = ForgotPassHtml(isExistUser.name,url);
-    await sendMail(isExistUser.email,template);
+    const url = `http://localhost:3000/${token}`;
+    const template = ForgotPassHtml(isExistUser.name, url);
+    await sendMail(isExistUser.email, template);
 
-    return res.status(200).json({error:null,content:url});
-
+    return res.status(200).json({ error: null, content: url });
   } catch (error: any) {
     console.log("Error en forgotPassword");
     return handleError(res, error, 500);
