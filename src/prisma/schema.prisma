@@ -22,11 +22,14 @@ model User {
 }
 
 model File {
-  id       Int      @id @default(autoincrement())
-  name     String   @unique
+  id        Int     @id @default(autoincrement())
+  name      String
+  url       String
+  key       String  @unique
+  isDeleted Boolean @default(false)
+
   user     User     @relation(fields: [userId], references: [id])
-  url      String
-  userId   Int      @unique
+  userId   Int
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 }

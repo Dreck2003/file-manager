@@ -35,7 +35,7 @@ export const createUser = async (req: Request, res: Response) => {
       },
     });
     const token = jwt.sign({ id: newUser.id }, secret, {
-      expiresIn: "48h",
+      expiresIn: "2d",
     });
 
     return res.status(201).json({
@@ -74,7 +74,7 @@ export const loginUser = async (req: Request, res: Response) => {
     }
 
     const token = jwt.sign({ id: user.id }, secret, {
-      expiresIn: "48h",
+      expiresIn: "2d",
     });
 
     //Return jsonWebToken
