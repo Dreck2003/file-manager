@@ -18,5 +18,6 @@ export const CONFIG = {
 		FROM:process.env.EMAIL_FROM,
 		USER:process.env.EMAIL_USER,
 		PASSWORD:process.env.EMAIL_PASSWORD
-	}
+	},
+	SECRET:process.env.JWT_SECRET
 };
