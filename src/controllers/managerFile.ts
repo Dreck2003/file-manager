@@ -141,7 +141,7 @@ export const downloadFile = async (req: Request, res: Response) => {
     if (!userEncountered) {
       return handleError(res, "The credentials are incorrect", 401);
     }
-    console.log(req.params.key);
+    // console.log(req.params.key);
 
     const isExistFile = await prisma.file.findFirst({
       where: {
@@ -160,11 +160,3 @@ export const downloadFile = async (req: Request, res: Response) => {
     return handleError(res, "ERROR_DOWNLOADFILE", 500);
   }
 };
-
-// export const getUserFiles = async (req: Request, res: Response) => {
-//   try {
-//   } catch (error) {
-//     console.log("Error en getUSerFiles: ", error);
-//     return handleError(res, error, 500);
-//   }
-// };

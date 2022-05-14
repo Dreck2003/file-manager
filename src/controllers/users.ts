@@ -98,7 +98,3 @@ export const updateUserPassword = async (req: Request, res: Response) => {
     return handleError(res, error, 500);
   }
 };
-
-/**
- * for OAUTH: https://programmerclick.com/article/43311449094/
- */
