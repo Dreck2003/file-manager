@@ -131,12 +131,7 @@ Y con esto bastaría para poder correr el servidor 😎.
 
 ### 2. Crear la Base de datos:
 
-> Por defecto el servidor crea la base de datos y las tablas automágicamente.(Como tambien puede suceder que no lo haga 🤷‍♂️) .
-
-Si el servidor no crea la base de datos o hay errores como : ***Can't reach database server at `localhost`:`3002`*** , tal vez sea por que no encuentra la base
-de datos que incluimos en el archivo [.env](#DB_URL).
-
-Para solucionar eso debes crear una nueva base de datos con el mismo nombre de la base de datos que pusimos en el archivo .env.(DB_URL => ***mydb***);
+Ahora debes crear una nueva base de datos con el mismo nombre de la base de datos que pusimos en el archivo [.env](#DB_URL) (DB_URL => ***mydb***) 
 
 Y ejecutar el siguiente comando en la terminal: <code>npm run prisma:init</code>
 Ahora vuelve a ejecutar <code>npm run dev</code>, y deberia correr el servidor.😎
