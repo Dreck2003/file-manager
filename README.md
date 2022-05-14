@@ -17,7 +17,7 @@
 > El proyecto esta hecho con el PrismaORM ,asi que cualquier duda puedes consultar [aqui](https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/relational-databases-typescript-postgres).
 
 ## Índice de contenidos
-* [Preparando las varaibles de entorno](#envFile)
+* [Preparando las variables de entorno](#envFile)
 * [Crear la base de datos](#INIT_DB)
 * [Documentacion](#documentation)
 * [Testing](#testing)
