@@ -10,7 +10,7 @@ afterAll(async () => {
   await prisma.user.deleteMany({});
 });
 
-xdescribe("POST /users", () => {
+describe("POST /users", () => {
   beforeAll(async () => {
     await prisma.user.deleteMany({});
   });
@@ -39,15 +39,13 @@ xdescribe("POST /users", () => {
   });
 });
 
-xdescribe("LOGIN /users/login", () => {
+describe("LOGIN /auth/login", () => {
   beforeAll(async () => {
     await prisma.user.deleteMany({});
   });
 
   test("Should return error if a user is not exist in database", async () => {
-    const response = await supertest
-      .post("/api/users/login")
-      .send(ListUsers[0]);
+    const response = await supertest.post("/api/auth/login").send(ListUsers[0]);
     expect(response.headers["content-type"]).toMatch(/application\/json/);
     expect(response.body.error).toBe("User not exists");
     expect(response.body.content).toEqual(null);
@@ -55,9 +53,7 @@ xdescribe("LOGIN /users/login", () => {
 
   test("Should return token if all is well", async () => {
     await supertest.post("/api/users").send(ListUsers[0]);
-    const response = await supertest
-      .post("/api/users/login")
-      .send(ListUsers[0]);
+    const response = await supertest.post("/api/auth/login").send(ListUsers[0]);
 
     expect(response.body.error).toEqual(null);
     expect(typeof response.body.content.token).toBe("string");

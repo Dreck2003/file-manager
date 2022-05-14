@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose ",
+    "test": "jest --verbose --silent",
     "start": "tsc",
     "dev": "nodemon ./src/index.ts",
     "prisma:init": " npx prisma migrate dev --name init",
