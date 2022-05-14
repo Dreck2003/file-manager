@@ -7,7 +7,7 @@
     "test": "jest --verbose ",
     "start": "tsc",
     "dev": "nodemon ./src/index.ts",
-    "prisma:migrate": " npx prisma migrate dev --name init",
+    "prisma:init": " npx prisma migrate dev --name init",
     "reset": "npx prisma migrate reset"
   },
   "keywords": [],

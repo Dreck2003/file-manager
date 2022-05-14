@@ -1,6 +1,9 @@
 import { Router } from "express";
-import { downloadAwsFile } from "../config/aws";
-import { getFileUrl, getUnsplashImage } from "../controllers/managerFile";
+import {
+  downloadFile,
+  getFileUrl,
+  getUnsplashImage,
+} from "../controllers/managerFile";
 import {
   isLoggedInMiddleware,
   isTokenParamsMiddleware,
@@ -44,7 +47,7 @@ const router = Router();
  *      - bearerAuth: []
  */
 
-router.get("/download/:token/:key", isTokenParamsMiddleware, downloadAwsFile);
+router.get("/download/:token/:key", isTokenParamsMiddleware, downloadFile);
 
 /**
  * GET FILE_URL:
@@ -53,7 +56,7 @@ router.get("/download/:token/:key", isTokenParamsMiddleware, downloadAwsFile);
  *  get:
  *   tags:
  *     - fileManager
- *   summary: GET file
+ *   summary: GET url file for render in tag html
  *   description: This endpoint get the url of File
  *
  *   parameters:

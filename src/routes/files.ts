@@ -56,7 +56,7 @@ router.post(
  *  get:
  *   tags:
  *     - files
- *   summary: Get File
+ *   summary: Get File for chunks for tag html
  *   description:
  *        "This endpoint get file through chunks For example: set src to image : '.../api/single/key' --> render the image in tha tag html"
  *   parameters:
@@ -74,11 +74,9 @@ router.post(
  *         description: You dont have token || The credentials are incorrects
  *      "400":
  *         description: The key does not exist"
- *   security:
- *      - bearerAuth: []
  */
 
-router.get("/singleFile/:key", isLoggedInMiddleware, singleFile);
+router.get("/singleFile/:key", singleFile);
 
 /**
  * GET UserFiles:
