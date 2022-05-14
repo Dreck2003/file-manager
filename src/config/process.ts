@@ -19,7 +19,7 @@ export const CONFIG = {
     USER: process.env.EMAIL_USER,
     PASSWORD: process.env.EMAIL_PASSWORD,
   },
-  SECRET: process.env.JWT_SECRET,
+  JWT_SECRET: process.env.JWT_SECRET || "secret",
   UNSPLASH: {
     ACCESS_KEY: process.env.UNSPLASH_ACCES_KEY,
   },

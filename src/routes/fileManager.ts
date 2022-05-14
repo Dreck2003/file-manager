@@ -38,10 +38,8 @@ const router = Router();
  *         description: Return a download file
  *      "401":
  *         description: You dont have token || The credentials are incorrects
- *      "403":
- *         description: Missing data (name,username,email,password)
  *      "400":
- *         description: The file not exist in database
+ *         description: The file not exist in database Missing data (name,username,email,password)
  *   security:
  *      - bearerAuth: []
  */
@@ -96,7 +94,7 @@ router.get("/getFileUrl/:id", isLoggedInMiddleware, getFileUrl);
  *      schema:
  *        type: string
  *      required: true
- *      description: Need a file id
+ *      description: Need a name Image
  *
  *   responses:
  *      "200":

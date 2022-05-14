@@ -32,10 +32,8 @@ const router = Router();
  *         description: Return a new File, whitouh error
  *      "401":
  *         description: You dont have token || The credentials are incorrects
- *      "403":
- *         description: Missing data (nameFile)
  *      "400":
- *         description: The file not exist
+ *         description: The file not exist || Missing data (nameFile)
  *      "500":
  *         description: It was not possible to upload the file || JWT_ERROR
  *
@@ -139,9 +137,7 @@ router.get("/userFiles", isLoggedInMiddleware, getUserFiles);
  *      "401":
  *         description: You dont have token || The credentials are incorrects
  *      "400":
- *         description: The file not exist
- *      "403":
- *         description: Missing data or is wrong
+ *         description: The file not exist || Missing data or is wrong
  *      "500":
  *         description: Error in database
  *      "404":

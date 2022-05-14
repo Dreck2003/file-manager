@@ -7,6 +7,7 @@ import { getToken } from "../helpers/getIdToken";
 import { CONFIG } from "../config/process";
 
 const prisma = new PrismaClient();
+//TODO: http://localhost:3001/api/files
 
 export const createFile = async (req: Request, res: Response) => {
   try {

@@ -17,3 +17,9 @@ export const validatorForgotPassUser = [
   check("email").exists().notEmpty().isEmail(),
   validates,
 ];
+
+export const validatorChangePassword = [
+  check("password").exists().notEmpty().isLength({ min: 8, max: 30 }),
+  check("newPassword").exists().notEmpty().isLength({ min: 8, max: 30 }),
+  validates,
+];

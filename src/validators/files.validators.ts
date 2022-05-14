@@ -24,7 +24,7 @@ export const validatorChangeFileName = [
       return next();
     } catch (error) {
       // console.log("Error en validatorCreateUser: ",error.array());
-      return handleError(res, "Missing data or incorrect data");
+      return handleError(res, "Missing data or incorrect data", 400);
     }
   },
 ];
