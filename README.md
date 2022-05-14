@@ -17,7 +17,7 @@
 > El proyecto esta hecho con el PrismaORM ,asi que cualquier duda puedes consultar [aqui](https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/relational-databases-typescript-postgres).
 
 ## Índice de contenidos
-* [Preparando las varaibles de entorno](#envFile)
+* [Preparando las variables de entorno](#envFile)
 * [Crear la base de datos](#INIT_DB)
 * [Documentacion](#documentation)
 * [Testing](#testing)
@@ -131,12 +131,7 @@ Y con esto bastaría para poder correr el servidor 😎.
 
 ### 2. Crear la Base de datos:
 
-> Por defecto el servidor crea la base de datos y las tablas automágicamente.(Como tambien puede suceder que no lo haga 🤷‍♂️) .
-
-Si el servidor no crea la base de datos o hay errores como : ***Can't reach database server at `localhost`:`3002`*** , tal vez sea por que no encuentra la base
-de datos que incluimos en el archivo [.env](#DB_URL).
-
-Para solucionar eso debes crear una nueva base de datos con el mismo nombre de la base de datos que pusimos en el archivo .env.(DB_URL => ***mydb***);
+Ahora debes crear una nueva base de datos con el mismo nombre de la base de datos que pusimos en el archivo [.env](#DB_URL) (DB_URL => ***mydb***) 
 
 Y ejecutar el siguiente comando en la terminal: <code>npm run prisma:init</code>
 Ahora vuelve a ejecutar <code>npm run dev</code>, y deberia correr el servidor.😎
@@ -195,10 +190,11 @@ Y deberia retorna un objeto como el siguiente:
 POST: <code>/api/files</code> Este endpoint recibe un token por header y un objeto formData con el archivo(***fileUpload***)  y el nombre de la archivo(***nameFile***);
 
 ***fileUpload*** => Es el nombre del archivo
+
 ***nameFile*** => Es el nombre que el usuario quiere para el archivo que subio(Deberia ser seleccionado en un input).
 
 
-Y deberia retorna un objeto como el siguiente: 
+Y deberia retorna : 
 
 ```javascript
 {
@@ -220,11 +216,11 @@ GET: <code>/api/files/userFiles</code> Este endpoint recibe un token por header 
 
 GET: <code>/api/files/singleFile/:key</code> Este endpoint recibe el key de un archivo para bajarlo por chunks.Deberia ser usado dentro de etiquetas html para la carga de los datos.
 
-```javascript
-{
- error:null,
- content: File[]
-}
+```html
+<img src="htpp:localhost:3001/api/files/singleFile/{key}"/>
+<video controls>
+ <source src="htpp:localhost:3001/api/files/singleFile/{key}" type="video/mp4">
+</video>
 ```
 
 
