@@ -195,10 +195,11 @@ Y deberia retorna un objeto como el siguiente:
 POST: <code>/api/files</code> Este endpoint recibe un token por header y un objeto formData con el archivo(***fileUpload***)  y el nombre de la archivo(***nameFile***);
 
 ***fileUpload*** => Es el nombre del archivo
+
 ***nameFile*** => Es el nombre que el usuario quiere para el archivo que subio(Deberia ser seleccionado en un input).
 
 
-Y deberia retorna un objeto como el siguiente: 
+Y deberia retorna : 
 
 ```javascript
 {
@@ -220,11 +221,11 @@ GET: <code>/api/files/userFiles</code> Este endpoint recibe un token por header 
 
 GET: <code>/api/files/singleFile/:key</code> Este endpoint recibe el key de un archivo para bajarlo por chunks.Deberia ser usado dentro de etiquetas html para la carga de los datos.
 
-```javascript
-{
- error:null,
- content: File[]
-}
+```html
+<img src="htpp:localhost:3001/api/files/singleFile/{key}"/>
+<video controls>
+ <source src="htpp:localhost:3001/api/files/singleFile/{key}" type="video/mp4">
+</video>
 ```
 
 
