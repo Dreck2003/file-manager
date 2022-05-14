@@ -8,11 +8,13 @@ const pathDir = `${__dirname}`;
 const router = Router();
 
 fs.readdirSync(pathDir).forEach((file) => {
-	const nameFile = file.split(".").shift();
-	if (!skip.includes(nameFile as string)) {
-		const familyRoutes = require(`./${nameFile}`);
-		router.use(`/${nameFile}`, familyRoutes);
-	}
+  const nameFile = file.split(".").shift();
+  if (!skip.includes(nameFile as string)) {
+    console.log("Cargando ---> ", nameFile);
+
+    const familyRoutes = require(`./${nameFile}`);
+    router.use(`/${nameFile}`, familyRoutes);
+  }
 });
 
 export default router;

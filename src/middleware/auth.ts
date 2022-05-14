@@ -25,7 +25,7 @@ export const isLoggedInMiddleware = async (
       return handleError(res, "The credentials are incorrect", 401);
     }
     next();
-  } catch (error: any) {
+  } catch (error) {
     console.log("Error en isLoggedIn");
     return handleError(res, error, 500);
   }

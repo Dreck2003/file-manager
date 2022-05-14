@@ -18,6 +18,16 @@ export const changeFileName = async (req: Request, res: Response) => {
     }
     const data = matchedData(req);
 
+    const oldFile = await prisma.file.findFirst({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    if (!oldFile) {
+      return handleError(res, "No file not exist", 404);
+    }
+
     const newFile = await prisma.file.update({
       where: {
         id: Number(id),
@@ -85,7 +95,7 @@ export const getFileUrl = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
     if (!Number(id)) {
-      return handleError(res, "Id not exist", 404);
+      return handleError(res, "Id not exist", 400);
     }
 
     const fileUrl = await prisma.file.findFirst({
@@ -138,7 +148,7 @@ export const downloadFile = async (req: Request, res: Response) => {
       },
     });
     if (!isExistFile) {
-      return handleError(res, "The File not exist", 401);
+      return handleError(res, "The File not exist", 400);
     }
 
     const result = await downloadAwsFile(req.params.key);
