@@ -12,6 +12,8 @@ const prisma = new PrismaClient();
 export const createFile = async (req: Request, res: Response) => {
   try {
     if (!req.file) {
+      console.log("request file: ", req.file);
+
       return handleError(res, "Not exist the file", 400);
     }
     const result = await UploadFile(req.file);
@@ -48,8 +50,6 @@ export const createFile = async (req: Request, res: Response) => {
       },
     });
 
-    await fs.unlink(req.file.path);
-
     return res.status(200).json({ error: null, content: newFile });
   } catch (error) {
     console.log("Error in createFile: ", error);
@@ -60,17 +60,31 @@ export const createFile = async (req: Request, res: Response) => {
 //KEY ==> Is a File Key (file-DATATIME.ext);
 export const singleFile = async (req: Request, res: Response) => {
   try {
-    console.log("Entro en single File");
+    // console.log("Entro en single File");
 
     const key: string = req.params.key;
     if (!key) {
       return handleError(res, "The key does not exist", 400);
     }
+
+    //Debemos asegurarnos de que la key existe en los archivos
+
+    const isExistFile = await prisma.file.findFirst({
+      where: {
+        key: key,
+      },
+    });
+
+    if (!isExistFile) {
+      return handleError(res, "The file does not exist", 404);
+    }
+
     const result = await getFileS3(key);
 
     if (!result) {
       return handleError(res, "The file not exist", 404);
     }
+    console.log({ result: result });
 
     return result.pipe(res);
   } catch (error) {

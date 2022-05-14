@@ -26,6 +26,15 @@ export const createUser = async (req: Request, res: Response) => {
       //Si existe un usuario con el mismo email:
       return handleError(res, "User already exists", 400);
     }
+    const isExist = await prisma.user.findUnique({
+      where: {
+        username: data.username,
+      },
+    });
+    if (isExist) {
+      //Si existe un usuario con el mismo email:
+      return handleError(res, "User already exists", 400);
+    }
 
     //Hasheamos la contraseña 👍
     const newPassword = await encrypPass(data.password);
@@ -51,7 +60,7 @@ export const createUser = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.log("Error en createUser: ", error);
-    return handleError(res, error, 500);
+    return handleError(res, "User already exist", 500);
   }
 };
 
