@@ -8,6 +8,7 @@ import { PrismaClient } from "@prisma/client";
 import { downloadAwsFile } from "../config/aws";
 
 const prisma = new PrismaClient();
+//TODO: http://localhost:3001/api/managerFile
 
 export const changeFileName = async (req: Request, res: Response) => {
   try {
@@ -124,7 +125,7 @@ export const downloadFile = async (req: Request, res: Response) => {
   try {
     const token = jwt.verify(
       req.params.token,
-      CONFIG.SECRET as string
+      CONFIG.JWT_SECRET as string
     ) as JwtPayload;
 
     if (!token.id) {

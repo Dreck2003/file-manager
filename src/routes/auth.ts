@@ -2,10 +2,12 @@ import {
   validatorForgotPassUser,
   validatorLoginUser,
 } from "../validators/users";
-import { loginUser, forgotPassword } from "../controllers/users";
 import { Router } from "express";
+import { forgotPassword, loginUser } from "../controllers/auth";
 
 const router = Router();
+
+//TODO: http://localhost:3001/api/auth
 
 /**
  * POST USER:
@@ -34,10 +36,8 @@ const router = Router();
  *        description: Return a new User whith token
  *      "401":
  *        description: The user not exist || The credentials are incorrects
- *      "403":
- *         description: Missing data (name,username,email,password)
  *      "400":
- *         description: Error in json request
+ *         description: Error in json request || Missing data (name,username,email,password)
  *
  */
 router.post("/login", validatorLoginUser, loginUser);
@@ -67,10 +67,8 @@ router.post("/login", validatorLoginUser, loginUser);
  *         description: Return a url to be consumed by frontend
  *      "401":
  *         description: The user not exist || The credentials are incorrects
- *      "403":
- *         description: Missing data (name,username,email,password)
  *      "400":
- *         description: Error in json request
+ *         description: Error in json request || Missing data (email)
  */
 router.put("/forgotPassword", validatorForgotPassUser, forgotPassword);
 

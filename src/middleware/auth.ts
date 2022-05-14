@@ -20,7 +20,7 @@ export const isLoggedInMiddleware = async (
 
     auth = auth.split(" ").pop() as string;
     //Si tiene un token
-    const result = jwt.verify(auth, CONFIG.SECRET as string) as JwtPayload;
+    const result = jwt.verify(auth, CONFIG.JWT_SECRET as string) as JwtPayload;
     if (!result.id) {
       return handleError(res, "The credentials are incorrect", 401);
     }
@@ -42,7 +42,7 @@ export const isTokenParamsMiddleware = async (
     if (!token) {
       return handleError(res, "You dont have token", 401);
     }
-    const result = jwt.verify(token, CONFIG.SECRET as string) as JwtPayload;
+    const result = jwt.verify(token, CONFIG.JWT_SECRET as string) as JwtPayload;
     if (!result.id) {
       return handleError(res, "The credentials are incorrect", 401);
     }
