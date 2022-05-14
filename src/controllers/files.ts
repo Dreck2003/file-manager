@@ -12,8 +12,6 @@ const prisma = new PrismaClient();
 export const createFile = async (req: Request, res: Response) => {
   try {
     if (!req.file) {
-      console.log("request file: ", req.file);
-
       return handleError(res, "Not exist the file", 400);
     }
     const result = await UploadFile(req.file);
@@ -30,7 +28,7 @@ export const createFile = async (req: Request, res: Response) => {
     const baseUrl = `${CONFIG.BASE_URL}/api/files/singleFile`;
 
     const token = getToken(req);
-    console.log({ token });
+    // console.log({ token });
     if (!token) {
       return handleError(res, "JWT_ERROR", 500);
     }
@@ -84,7 +82,7 @@ export const singleFile = async (req: Request, res: Response) => {
     if (!result) {
       return handleError(res, "The file not exist", 404);
     }
-    console.log({ result: result });
+    // console.log({ result: result });
 
     return result.pipe(res);
   } catch (error) {
@@ -96,7 +94,6 @@ export const singleFile = async (req: Request, res: Response) => {
 export const getUserFiles = async (req: Request, res: Response) => {
   try {
     const token = getToken(req);
-    console.log("Paso por getUSerFiles");
 
     if (!token) {
       return handleError(res, "JWT_ERROR", 500);
