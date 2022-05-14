@@ -139,7 +139,7 @@ de datos que incluimos en el archivo [.env](#DB_URL).
 Para solucionar eso debes crear una nueva base de datos con el mismo nombre de la base de datos que pusimos en el archivo .env.(DB_URL => ***mydb***);
 
 Y ejecutar el siguiente comando en la terminal: <code>npm run prisma:init</code>
-Ahora vuelve a ejecutar <code>npm run dev</code>, y deberia correr el servidor.
+Ahora vuelve a ejecutar <code>npm run dev</code>, y deberia correr el servidor.😎
 
 <a name="documentation"></a>
 
@@ -148,14 +148,145 @@ Ahora vuelve a ejecutar <code>npm run dev</code>, y deberia correr el servidor.
 > Puedes ver la documentación de la API en: **http://localhost:3001/documentation/**:
 
 La documentacion esta hecha con swagger, y hay algunos endpoints que no podran funcionar, debido a que se debe enviar archivos al server,por ello es necesario 
-testear la api un software como [Postman](https://www.postman.com/) o [insomnia](https://insomnia.rest/download).
+testear la api con un software como [Postman](https://www.postman.com/) o [insomnia](https://insomnia.rest/download).
 
 **EndPoints**
 
-<!-- [Subir](#top) -->
+***USERS***
+
+POST: <code>/api/users</code> Este endpoint recibe un objeto como el siguiente:
+
+```javascript
+{
+  "name": "string",
+  "username": "string",
+  "email": "string",
+  "password": "string"
+}
+```
+Y deberia retorna un objeto como el siguiente: 
+
+```javascript
+{
+ error:null,
+ content: User
+}
+```
+
+PUT: <code>/api/users/:token</code> Este endpoint recibe el token por params y un objeto como el siguiente: 
+
+```javascript
+{
+  "password": "string",
+  "newPassword": "string"
+}
+```
+Y deberia retorna un objeto como el siguiente: 
+
+```javascript
+{
+ error:null,
+ content: `Password changed!,try to login again ${newUser.name}`
+}
+```
+
+***FILES***
+
+POST: <code>/api/files</code> Este endpoint recibe un token por header y un objeto formData con el archivo(***fileUpload***)  y el nombre de la archivo(***nameFile***);
+
+***fileUpload*** => Es el nombre del archivo
+***nameFile*** => Es el nombre que el usuario quiere para el archivo que subio(Deberia ser seleccionado en un input).
+
+
+Y deberia retorna un objeto como el siguiente: 
+
+```javascript
+{
+ error:null,
+ content: File
+}
+```
+
+
+GET: <code>/api/files/userFiles</code> Este endpoint recibe un token por header y deberia retornar todos los archivos de un usuario
+
+```javascript
+{
+ error:null,
+ content: File[]
+}
+```
+
+
+GET: <code>/api/files/singleFile/:key</code> Este endpoint recibe el key de un archivo para bajarlo por chunks.Deberia ser usado dentro de etiquetas html para la carga de los datos.
+
+```javascript
+{
+ error:null,
+ content: File[]
+}
+```
+
+
+***FILEMANAGER***
+
+GET: <code>/api/fileManager/download/:token/:key</code> Este endpoint recibe un token y una key para descargar el archivo cuando se hace un get a esa ruta.
+Se deberia usar para redireccionar a la descarga.
+
+GET: <code>/api/fileManager/searchFile?image=Lima</code> Este endpoint recibe una query con el nombre de **image** y devuelve las imagenes que coincidan con la query, traidas de Unsplash.
+
+```javascript
+{
+ error:null,
+ content: Images[]
+}
+```
+
+***Auth***
+
+PORT: <code>/api/auth/login</code> Este endpoint recibe el username y el  password y devuelve el usuario con el token
+
+```javascript
+{
+  "username": "string",
+  "password": "string"
+}
+```
+
+Devuelve:
+
+```javascript
+{
+ error:null,
+ content: {
+ name:"",
+ username:"",
+ token:""
+}
+```
 
 
 
+GET: <code>/api/auth/forgotPassword</code> Este endpoint recibe el email y el token para enviar un email para cambiar de contraseña:
 
+```javascript
+{
+  "email":"test@test.com"
+}
+```
 
+```javascript
+{
+ error:null,
+ content: `http://localhost:3000/${token}`;
+}
+```
+
+<a>testing</a>
+
+### 3. Testing:
+
+> Puedes ejecutar <code>npm test</code> para correr los test de algunos endpoints.
+
+[Subir](#top)
 
