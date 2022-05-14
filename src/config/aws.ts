@@ -45,3 +45,33 @@ export const getFileS3 = async (fileKey: string) => {
     console.log("Error in getFileS3: ", error);
   }
 };
+
+// export const getListFilesAws = async () => {
+//   try {
+//     let response = await s3
+//       .listObjectsV2({
+//         Bucket: CONFIG.AWS.BUCKET as string,
+//         Delimiter
+//       })
+//       .promise();
+//   } catch (error) {
+//     console.log("Error in getListFilesAws: ", error);
+//   }
+// };
+
+export const downloadAwsFile = async (fileKey: string) => {
+  console.log("Se descargara en archivo con la key: ", fileKey);
+
+  try {
+    return s3
+      .getObject({
+        Key: fileKey,
+        Bucket: CONFIG.AWS.BUCKET as string,
+      })
+      .promise();
+
+    s3.putObject;
+  } catch (error) {
+    console.log("Error en downloadAwsFile: ", error);
+  }
+};

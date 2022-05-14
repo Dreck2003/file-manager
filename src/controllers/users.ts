@@ -1,3 +1,4 @@
+import { CONFIG } from "./../config/process";
 import { handleError } from "./../helpers/handleError";
 import { Request, Response } from "express";
 import { matchedData } from "express-validator";
@@ -10,6 +11,9 @@ import { ForgotPassHtml } from "../helpers/templates/emailTemplate";
 const prisma = new PrismaClient();
 
 const secret: string = process.env.JWT_SECRET || "secret";
+interface JwtPayload {
+  id: number;
+}
 
 export const createUser = async (req: Request, res: Response) => {
   try {
@@ -35,7 +39,7 @@ export const createUser = async (req: Request, res: Response) => {
       },
     });
     const token = jwt.sign({ id: newUser.id }, secret, {
-      expiresIn: "48h",
+      expiresIn: "2d",
     });
 
     return res.status(201).json({
@@ -46,7 +50,7 @@ export const createUser = async (req: Request, res: Response) => {
         token,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     console.log("Error en createUser: ", error);
     return handleError(res, error, 500);
   }
@@ -74,7 +78,7 @@ export const loginUser = async (req: Request, res: Response) => {
     }
 
     const token = jwt.sign({ id: user.id }, secret, {
-      expiresIn: "48h",
+      expiresIn: "2d",
     });
 
     //Return jsonWebToken
@@ -86,7 +90,7 @@ export const loginUser = async (req: Request, res: Response) => {
         token,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     console.log("Error in loginUser");
     return handleError(res, error, 500);
   }
@@ -112,8 +116,45 @@ export const forgotPassword = async (req: Request, res: Response) => {
     await sendMail(isExistUser.email, template);
 
     return res.status(200).json({ error: null, content: url });
-  } catch (error: any) {
+  } catch (error) {
     console.log("Error en forgotPassword");
+    return handleError(res, error, 500);
+  }
+};
+
+export const updateUserPassword = async (req: Request, res: Response) => {
+  try {
+    const data = matchedData(req);
+
+    const { id } = jwt.verify(
+      req.params.token,
+      CONFIG.SECRET as string
+    ) as JwtPayload;
+
+    const { password, newPassword } = data;
+
+    if (password != newPassword) {
+      return handleError(res, "Passwords do not match");
+    }
+
+    const changedPassword = await encrypPass(newPassword);
+    const newUser = await prisma.user.update({
+      where: {
+        id: Number(id),
+      },
+      data: {
+        password: changedPassword,
+      },
+    });
+
+    return res
+      .status(201)
+      .json({
+        error: null,
+        content: `Password changed!,try to login again ${newUser.name}`,
+      });
+  } catch (error) {
+    console.log("Error en updateUserPassword: ", error);
     return handleError(res, error, 500);
   }
 };

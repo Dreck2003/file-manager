@@ -25,8 +25,29 @@ export const isLoggedInMiddleware = async (
       return handleError(res, "The credentials are incorrect", 401);
     }
     next();
-  } catch (error: any) {
+  } catch (error) {
     console.log("Error en isLoggedIn");
+    return handleError(res, error, 500);
+  }
+};
+
+export const isTokenParamsMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const token = req.params.token;
+
+    if (!token) {
+      return handleError(res, "You dont have token", 401);
+    }
+    const result = jwt.verify(token, CONFIG.SECRET as string) as JwtPayload;
+    if (!result.id) {
+      return handleError(res, "The credentials are incorrect", 401);
+    }
+    next();
+  } catch (error) {
     return handleError(res, error, 500);
   }
 };
